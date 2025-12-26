@@ -14,7 +14,7 @@
 ## Methodology
 
 * A simple implementation of a rag is used in this project.
-* This is available at : https://github.com/mahedjaved/ReactRAGpdf
+* Demo repo available at : https://github.com/mahedjaved/ReactRAGpdf
 * It is a Java-Spring-React based implementation of a rag based querying system.
 * This codebase will be improved step-by-step as the project progresses.
 
@@ -22,3 +22,8 @@
 
 * The project will be improved step-by-step as the project progresses.
 * The record of improvement will be documented in this section.
+- ☐ Adds initial RAG repo
+- ☐ Begin with simple ML model based refinement
+- ☐ Task not started
+- ☑ Task completed
+- ✅ Fully verified
