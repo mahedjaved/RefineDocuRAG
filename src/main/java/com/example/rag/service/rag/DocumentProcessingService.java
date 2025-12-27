@@ -1,4 +1,4 @@
-package com.example.rag.service;
+package com.example.rag.service.rag;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.rag.model.rag.Document;
 import com.example.rag.model.rag.DocumentChunk;
-import com.example.rag.repository.ChunkRepository;
-import com.example.rag.repository.DocumentRepository;
+import com.example.rag.repository.rag.ChunkRepository;
+import com.example.rag.repository.rag.DocumentRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

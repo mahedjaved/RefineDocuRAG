@@ -1,4 +1,4 @@
-package com.example.rag.service;
+package com.example.rag.service.rag;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

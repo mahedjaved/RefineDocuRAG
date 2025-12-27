@@ -2,8 +2,9 @@ package com.example.rag.agent;
 
 import com.t4a.annotations.Agent;
 import com.t4a.annotations.Action;
-import com.example.rag.model.Document;
-import com.example.rag.service.DocumentProcessingService;
+import com.example.rag.model.rag.Document;
+import com.example.rag.service.rag.DocumentProcessingService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

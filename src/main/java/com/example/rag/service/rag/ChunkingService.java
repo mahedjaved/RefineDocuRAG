@@ -1,4 +1,4 @@
-package com.example.rag.service;
+package com.example.rag.service.rag;
 
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;

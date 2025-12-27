@@ -1,4 +1,4 @@
-package com.example.rag.repository;
+package com.example.rag.repository.rag;
 
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.example.rag.service;
+package com.example.rag.service.rag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.rag.model.rag.ChatMessage;
 import com.example.rag.model.rag.DocumentChunk;
-import com.example.rag.repository.ChunkRepository;
+import com.example.rag.repository.rag.ChunkRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,8 +2,9 @@ package com.example.rag.agent;
 
 import com.t4a.annotations.Agent;
 import com.t4a.annotations.Action;
-import com.example.rag.model.ChatMessage;
-import com.example.rag.service.QueryService;
+import com.example.rag.model.rag.ChatMessage;
+import com.example.rag.service.rag.QueryService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

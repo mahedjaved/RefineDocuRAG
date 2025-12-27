@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.rag.model.Document;
-import com.example.rag.model.DocumentChunk;
+import com.example.rag.model.rag.Document;
+import com.example.rag.model.rag.DocumentChunk;
+import com.example.rag.service.rag.DocumentProcessingService;
 
 import kong.unirest.core.HttpStatus;
 
 import java.util.List;
-
-import com.example.rag.service.DocumentProcessingService;
 
 import lombok.RequiredArgsConstructor;
 

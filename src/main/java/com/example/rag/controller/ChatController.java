@@ -1,7 +1,8 @@
 package com.example.rag.controller;
 
-import com.example.rag.model.ChatMessage;
-import com.example.rag.service.QueryService;
+import com.example.rag.model.rag.ChatMessage;
+import com.example.rag.service.rag.QueryService;
+
 import lombok.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
