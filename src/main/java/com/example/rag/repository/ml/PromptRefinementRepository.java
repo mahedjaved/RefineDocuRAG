@@ -17,7 +17,7 @@ interface PromptRefinementRepository extends JpaRepository<PromptRefinement, Lon
 
     @Query("SELECT pr FROM PromptRefinement pr WHERE pr.converged = true ORDER BY pr.qualityScore DESC")
     List<PromptRefinement> findConvergedRefinements();
-
+    
     @Query("SELECT pr FROM PromptRefinement pr WHERE pr.qualityScore >= :minScore ORDER BY pr.qualityScore DESC")
     List<PromptRefinement> findHighQualityRefinements(@Param("minScore") Double minScore);
 
