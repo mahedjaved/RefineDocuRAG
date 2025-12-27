@@ -1,4 +1,4 @@
-package com.example.rag.dto;
+package com.example.rag.dto.nestedDtos;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.example.rag.dto;
+package com.example.rag.dto.responseDtos;
 
 import java.util.Map;
 

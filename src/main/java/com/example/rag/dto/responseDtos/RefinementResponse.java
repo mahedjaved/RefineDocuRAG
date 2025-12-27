@@ -1,8 +1,9 @@
-package com.example.rag.dto;
+package com.example.rag.dto.responseDtos;
 
 import java.util.List;
 import java.util.Map;
 
+import com.example.rag.dto.nestedDtos.IterationDetail;
 import com.google.auto.value.AutoValue.Builder;
 
 import lombok.AllArgsConstructor;

@@ -33,7 +33,7 @@
         - ☑ ChatRequest - Question for RAG system
 
     - ☐ Response DTOs (Backend → Frontend)
-        - ☐ RefinementResponse - Complete refinement results
+        - ☑ RefinementResponse - Complete refinement results
         - ☐ ChatResponse - RAG answer with sources
         - ☐ UploadResponse - File upload confirmation
         - ☐ DocumentInfo - Document listing
@@ -42,7 +42,7 @@
         - ☐ SessionSummary - Refinement session summary
         - ☑ RegressionResult - ML model metrics
 
-    - ☐ Nested DTOs (Parts of other DTOs)
+    - ☑ Nested DTOs (Parts of other DTOs)
         - ☑ IterationDetail - One refinement iteration
         - ☑ SourceReference - RAG source document
         - ☑ FeatureAnalysis - Prompt quality analysis

@@ -1,4 +1,4 @@
-package com.example.rag.dto;
+package com.example.rag.dto.requestDtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
