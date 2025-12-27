@@ -28,9 +28,9 @@
     - ☐ Iterative Refinement: Feedback-driven improvement loop
     - ☐ Comprehensive Metrics: MSE, RMSE, MAE, R²
 - ☐ Build the domain transfer objects - this is done to transfer the data between the client and the server without impacting the database schema with concrete implementation details. Entities represent database structure (internal) vs DTOs represent API structure (external). Complimenting seperation of concerns.
-    - ☐ Request DTOs (Frontend → Backend)
+    - ☑ Request DTOs (Frontend → Backend)
         - ☑ RefinementRequest - Parameters to refine a prompt
-        - ☐ ChatRequest - Question for RAG system
+        - ☑ ChatRequest - Question for RAG system
 
     - ☐ Response DTOs (Backend → Frontend)
         - ☐ RefinementResponse - Complete refinement results
@@ -44,8 +44,8 @@
 
     - ☐ Nested DTOs (Parts of other DTOs)
         - ☑ IterationDetail - One refinement iteration
-        - ☐ SourceReference - RAG source document
-        - ☐ FeatureAnalysis - Prompt quality analysis
+        - ☑ SourceReference - RAG source document
+        - ☑ FeatureAnalysis - Prompt quality analysis
 
 
 * The stratergy of implementation is as follows
