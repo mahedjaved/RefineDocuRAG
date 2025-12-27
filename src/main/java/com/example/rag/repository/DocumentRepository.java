@@ -2,7 +2,7 @@ package com.example.rag.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.rag.model.Document;
+import com.example.rag.model.rag.Document;
 
 import java.util.List;
 

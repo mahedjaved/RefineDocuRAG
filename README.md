@@ -22,8 +22,19 @@
 
 * The project will be improved step-by-step as the project progresses.
 * The record of improvement will be documented in this section.
-- ☐ Adds initial RAG repo
-- ☐ Begin with simple ML model based refinement
+- ☐ Build the advanced regression pipeline 
+    - ☐ 4 Regression Methods: Linear, Polynomial, Neural Networks, Ensemble
+    - ☐ Gradient Descent Learning: Dynamic weight optimization
+    - ☐ Iterative Refinement: Feedback-driven improvement loop
+    - ☐ Comprehensive Metrics: MSE, RMSE, MAE, R²
+* The stratergy of implementation is as follows
+    * Evaluation of prompt will be assessed by : quality, accuracy of predicted , clarity, relevance to subject,  specificity to subject, completeness of the response
+* Use regression methods to quantify the impact of each factor on the qualityScore:  linear, polynomial, neural networks, ensemble
+* In our example we will assume that refinement features (vectors used by regression/ML methods) will be stored in a separate table (`refinement_features`) where:
+    - feature_name = name of a feature (e.g. avg_token_length, num_constraints),
+    - feature_value = numeric value of that feature for this refinement.
+
+## Reusable Components for Markdown
 - ☐ Task not started
 - ☑ Task completed
 - ✅ Fully verified

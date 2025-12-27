@@ -1,4 +1,4 @@
-package com.example.rag.model;
+package com.example.rag.model.rag;
 
 import lombok.Data;
 import java.util.List;

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.rag.model.Document;
-import com.example.rag.model.DocumentChunk;
+import com.example.rag.model.rag.Document;
+import com.example.rag.model.rag.DocumentChunk;
 import com.example.rag.repository.ChunkRepository;
 import com.example.rag.repository.DocumentRepository;
 

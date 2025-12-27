@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rag.model.ChatMessage;
-import com.example.rag.model.DocumentChunk;
+import com.example.rag.model.rag.ChatMessage;
+import com.example.rag.model.rag.DocumentChunk;
 import com.example.rag.repository.ChunkRepository;
 
 import lombok.RequiredArgsConstructor;

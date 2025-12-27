@@ -1,4 +1,4 @@
-package com.example.rag.model;
+package com.example.rag.model.rag;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

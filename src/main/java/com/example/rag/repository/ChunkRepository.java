@@ -2,7 +2,7 @@ package com.example.rag.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.rag.model.DocumentChunk;
+import com.example.rag.model.rag.DocumentChunk;
 
 import java.util.List;
 
