@@ -10,6 +10,7 @@ import com.example.rag.model.ml.PromptRefinement;
 import java.util.List;
 
 @Repository
+public
 interface PromptRefinementRepository extends JpaRepository<PromptRefinement, Long> {
     List<PromptRefinement> findBySessionId(String sessionId);
     List<PromptRefinement> findBySessionIdOrderByIterationNumberAsc(String sessionId);
@@ -23,9 +24,8 @@ interface PromptRefinementRepository extends JpaRepository<PromptRefinement, Lon
     @Query("SELECT pr FROM PromptRefinement pr WHERE pr.regressionMethod = :method ORDER BY pr.createdAt DESC")
     List<PromptRefinement> findByRegressionMethod(@Param("method") String method);
 
-    // TODO: investigate if Double is better alt.
     @Query("SELECT AVG(pr.qualityScore) FROM PromptRefinement pr WHERE pr.regressionMethod = :method")
-    Integer getAverageScoreByMethod(@Param("method") String method);
+    Double getAverageScoreByMethod(@Param("method") String method);
 
     @Query("SELECT pr FROM PromptRefinement pr WHERE pr.iteratioNumber = (SELECT MAX(pr2.iterationNumber) FROM PromptRefinement pr2 WHERE pr2.sessionId = pr.sessionId)")
     List<PromptRefinement> findFinalIterations();
