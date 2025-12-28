@@ -27,7 +27,7 @@ interface PromptRefinementRepository extends JpaRepository<PromptRefinement, Lon
     @Query("SELECT AVG(pr.qualityScore) FROM PromptRefinement pr WHERE pr.regressionMethod = :method")
     Double getAverageScoreByMethod(@Param("method") String method);
 
-    @Query("SELECT pr FROM PromptRefinement pr WHERE pr.iteratioNumber = (SELECT MAX(pr2.iterationNumber) FROM PromptRefinement pr2 WHERE pr2.sessionId = pr.sessionId)")
+    @Query("SELECT pr FROM PromptRefinement pr WHERE pr.iterationNumber = (SELECT MAX(pr2.iterationNumber) FROM PromptRefinement pr2 WHERE pr2.sessionId = pr.sessionId)")
     List<PromptRefinement> findFinalIterations();
 
     void deleteBySessionId(String sessionId);

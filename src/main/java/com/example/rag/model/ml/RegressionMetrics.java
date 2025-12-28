@@ -33,6 +33,9 @@ public class RegressionMetrics {
     @Column(nullable = false)
     private String sessionId;
 
+    @Column(nullable = false)
+    private String regressionMethod;
+
     // Mean squared errors
     @Column(nullable = false)
     private Double mse;

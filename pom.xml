@@ -17,6 +17,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <langchain4j.version>0.29.1</langchain4j.version>
+    <dl4j.version>1.0.0-M2.1</dl4j.version>
   </properties>
 
   <dependencies>
@@ -26,6 +27,24 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+    <groupId>org.deeplearning4j</groupId>
+    <artifactId>deeplearning4j-core</artifactId>
+    <version>${dl4j.version}</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+  <dependency>
+      <groupId>org.nd4j</groupId>
+      <artifactId>nd4j-native-platform</artifactId>
+      <version>${dl4j.version}</version>
+  </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -97,6 +116,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>3.2.4</version>
+        <configuration>
+          <fork>true</fork>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
