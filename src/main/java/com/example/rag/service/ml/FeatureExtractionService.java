@@ -186,6 +186,22 @@ public class FeatureExtractionService {
         return Math.max(0.0, Math.min(1.0, score));
     }
 
+    public double calculateQualityScore(Map<String, Double> features, Map<String, Double> weights) {
+        double score = 0.0;
+        double totalWeight = 0.0;
+
+        for (Map.Entry<String, Double> entry : features.entrySet()) {
+            String featureName = entry.getKey();
+            Double featureValue = entry.getValue();
+            Double weight = weights.getOrDefault(featureName, 0.05);
+
+            score += featureValue * weight;
+            totalWeight += weight;
+        }
+
+        return totalWeight > 0 ? score / totalWeight : 0.0;
+    }
+
     private Double getPunctuationRatio(String prompt) {
         int punctuationCount = 0;
         for (char c : prompt.toCharArray()) {

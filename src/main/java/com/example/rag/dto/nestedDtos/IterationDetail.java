@@ -2,7 +2,7 @@ package com.example.rag.dto.nestedDtos;
 
 import java.util.Map;
 
-import com.google.auto.value.AutoValue.Builder;
+import lombok.Builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.rag.dto.nestedDtos.IterationDetail;
-import com.google.auto.value.AutoValue.Builder;
+import lombok.Builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Data; 

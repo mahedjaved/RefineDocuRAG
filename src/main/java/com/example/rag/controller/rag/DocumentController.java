@@ -1,4 +1,4 @@
-package com.example.rag.controller;
+package com.example.rag.controller.rag;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.example.rag.controller;
+package com.example.rag.controller.rag;
 
 import com.example.rag.model.rag.ChatMessage;
 import com.example.rag.service.rag.QueryService;
