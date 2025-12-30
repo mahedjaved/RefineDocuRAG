@@ -1,0 +1,7 @@
+{
+  "prompt": "code for login",
+  "maxIterations": 5,
+  "convergenceThreshold": 0.95,
+  "regressionMethod": "ENSEMBLE",
+  "optimizationGoals": ["CLARITY", "RELEVANCE"]
+}

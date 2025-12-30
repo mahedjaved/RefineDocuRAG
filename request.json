@@ -1,0 +1,7 @@
+{
+  "prompt": "write a java function to sum two numbers",
+  "maxIterations": 5,
+  "convergenceThreshold": 0.95,
+  "regressionMethod": "ENSEMBLE",
+  "optimizationGoals": ["CLARITY", "RELEVANCE"]
+}

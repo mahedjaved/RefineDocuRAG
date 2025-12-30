@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Upload, FileText, MessageSquare, Send, Loader, ChevronDown, ChevronUp } from 'lucide-react';
+import { Upload, FileText, MessageSquare, Send, Loader, ChevronDown, ChevronUp, Sparkles, TrendingUp, X } from 'lucide-react';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -12,6 +12,18 @@ function App() {
   const [uploadProgress, setUploadProgress] = useState(false);
   const [chunks, setChunks] = useState([]);
   const [showChunks, setShowChunks] = useState(false);
+  
+  // Refinement states
+  const [showRefinement, setShowRefinement] = useState(false);
+  const [refining, setRefining] = useState(false);
+  const [refinementResult, setRefinementResult] = useState(null);
+  const [refinementSettings, setRefinementSettings] = useState({
+    maxIterations: 5,
+    convergenceThreshold: 0.95,
+    regressionMethod: 'ENSEMBLE',
+    optimizationGoals: ['CLARITY', 'RELEVANCE']
+  });
+  
   const chatEndRef = useRef(null);
 
   useEffect(() => {
@@ -76,6 +88,38 @@ function App() {
     }
   };
 
+  const handleRefinePrompt = async () => {
+    if (!query.trim()) return;
+
+    setRefining(true);
+    setRefinementResult(null);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/refinement/refine`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: query,
+          ...refinementSettings,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setRefinementResult(data);
+        setQuery(data.refinedPrompt); // Update query with refined prompt
+      } else {
+        alert('Error refining prompt: ' + (data.error || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Refinement error:', error);
+      alert('Error refining prompt');
+    } finally {
+      setRefining(false);
+    }
+  };
+
   const handleQuery = async () => {
     if (!query.trim()) return;
 
@@ -83,6 +127,7 @@ function App() {
     const currentQuery = query;
     setQuery('');
     setLoading(true);
+    setRefinementResult(null); // Clear refinement result when sending
 
     try {
       const response = await fetch(`${API_BASE_URL}/chat/query`, {
@@ -130,19 +175,29 @@ function App() {
     setChatMessages([]);
   };
 
+  const toggleOptimizationGoal = (goal) => {
+    setRefinementSettings(prev => ({
+      ...prev,
+      optimizationGoals: prev.optimizationGoals.includes(goal)
+        ? prev.optimizationGoals.filter(g => g !== goal)
+        : [...prev.optimizationGoals, goal]
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-indigo-900 mb-2">
-            PDF RAG Application
+            PDF RAG with Prompt Refinement
           </h1>
           <p className="text-gray-600">
-            Upload PDFs, process with Ollama Mistral 7B, and query with AI
+            Upload PDFs, refine prompts with ML, and query with Ollama Mistral 7B
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Sidebar - Documents */}
           <div className="lg:col-span-1 bg-white rounded-lg shadow-lg p-6">
             <div className="mb-4">
               <label className="flex items-center justify-center w-full px-4 py-3 bg-indigo-600 text-white rounded-lg cursor-pointer hover:bg-indigo-700 transition-colors">
@@ -246,14 +301,139 @@ function App() {
             )}
           </div>
 
-          <div className="lg:col-span-2 bg-white rounded-lg shadow-lg flex flex-col h-[600px]">
+          {/* Main Chat Area */}
+          <div className="lg:col-span-2 bg-white rounded-lg shadow-lg flex flex-col h-[700px]">
             <div className="p-4 border-b bg-indigo-600 rounded-t-lg">
-              <h2 className="text-lg font-semibold flex items-center text-white">
-                <MessageSquare className="w-5 h-5 mr-2" />
-                Chat with {selectedDoc ? selectedDoc.originalFilename : 'All Documents'}
+              <h2 className="text-lg font-semibold flex items-center justify-between text-white">
+                <div className="flex items-center">
+                  <MessageSquare className="w-5 h-5 mr-2" />
+                  Chat with {selectedDoc ? selectedDoc.originalFilename : 'All Documents'}
+                </div>
+                <button
+                  onClick={() => setShowRefinement(!showRefinement)}
+                  className="flex items-center px-3 py-1 bg-white text-indigo-600 rounded-lg text-sm hover:bg-indigo-50 transition-colors"
+                >
+                  <Sparkles className="w-4 h-4 mr-1" />
+                  {showRefinement ? 'Hide' : 'Show'} Refinement
+                </button>
               </h2>
             </div>
 
+            {/* Refinement Panel */}
+            {showRefinement && (
+              <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border-b">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-sm flex items-center text-purple-900">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Prompt Refinement Settings
+                  </h3>
+                  <button
+                    onClick={() => setShowRefinement(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-3 mb-3">
+                  <div>
+                    <label className="text-xs text-gray-600 block mb-1">Max Iterations</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={refinementSettings.maxIterations}
+                      onChange={(e) => setRefinementSettings(prev => ({ 
+                        ...prev, 
+                        maxIterations: parseInt(e.target.value) 
+                      }))}
+                      className="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-600 block mb-1">Convergence</label>
+                    <input
+                      type="number"
+                      min="0.7"
+                      max="0.99"
+                      step="0.01"
+                      value={refinementSettings.convergenceThreshold}
+                      onChange={(e) => setRefinementSettings(prev => ({ 
+                        ...prev, 
+                        convergenceThreshold: parseFloat(e.target.value) 
+                      }))}
+                      className="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-600 block mb-1">Method</label>
+                    <select
+                      value={refinementSettings.regressionMethod}
+                      onChange={(e) => setRefinementSettings(prev => ({ 
+                        ...prev, 
+                        regressionMethod: e.target.value 
+                      }))}
+                      className="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="ENSEMBLE">Ensemble</option>
+                      <option value="LINEAR">Linear</option>
+                      <option value="POLYNOMIAL">Polynomial</option>
+                      <option value="NEURAL">Neural</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="text-xs text-gray-600 block mb-2">Optimization Goals</label>
+                  <div className="flex flex-wrap gap-2">
+                    {['CLARITY', 'RELEVANCE', 'COMPLETENESS', 'SPECIFICITY'].map(goal => (
+                      <button
+                        key={goal}
+                        onClick={() => toggleOptimizationGoal(goal)}
+                        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                          refinementSettings.optimizationGoals.includes(goal)
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
+                      >
+                        {goal}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {refinementResult && (
+                  <div className="p-3 bg-white rounded-lg border border-purple-200 shadow-sm">
+                    <div className="grid grid-cols-3 gap-2 mb-2">
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600">Final Score</div>
+                        <div className="text-lg font-bold text-green-600">
+                          {(refinementResult.finalScore * 100).toFixed(1)}%
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600">Improvement</div>
+                        <div className="text-lg font-bold text-blue-600">
+                          +{refinementResult.improvementPercentage.toFixed(1)}%
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600">Iterations</div>
+                        <div className="text-lg font-bold text-purple-600">
+                          {refinementResult.totalIterations}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-600 mt-2 p-2 bg-purple-50 rounded">
+                      <strong className="text-purple-900">Refined Prompt:</strong>
+                      <div className="mt-1 text-gray-800">{refinementResult.refinedPrompt}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {chatMessages.length === 0 ? (
                 <div className="text-center text-gray-500 mt-20">
@@ -264,6 +444,11 @@ function App() {
                       ? 'Ask questions about the selected document'
                       : 'Select a document or ask questions about all documents'}
                   </p>
+                  {showRefinement && (
+                    <p className="text-sm mt-2 text-purple-600">
+                      ✨ Try the Sparkles button to refine your prompt first!
+                    </p>
+                  )}
                 </div>
               ) : (
                 chatMessages.map((msg, idx) => (
@@ -307,6 +492,7 @@ function App() {
               <div ref={chatEndRef} />
             </div>
 
+            {/* Input Area */}
             <div className="p-4 border-t">
               <div className="flex space-x-2">
                 <input
@@ -316,11 +502,25 @@ function App() {
                   onKeyPress={handleKeyPress}
                   placeholder="Ask a question about your documents..."
                   className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                  disabled={loading}
+                  disabled={loading || refining}
                 />
+                {showRefinement && (
+                  <button
+                    onClick={handleRefinePrompt}
+                    disabled={refining || !query.trim() || loading}
+                    className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center"
+                    title="Refine prompt with ML"
+                  >
+                    {refining ? (
+                      <Loader className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-5 h-5" />
+                    )}
+                  </button>
+                )}
                 <button
                   onClick={handleQuery}
-                  disabled={loading || !query.trim()}
+                  disabled={loading || !query.trim() || refining}
                   className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center"
                 >
                   <Send className="w-5 h-5" />

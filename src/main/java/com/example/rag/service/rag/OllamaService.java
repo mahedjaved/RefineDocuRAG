@@ -85,12 +85,22 @@ public class OllamaService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
+                log.error("Ollama request failed: code={}, message={}", response.code(), response.message());
                 throw new IOException("Failed to query Ollama: " + response);
             }
 
             String responseBody = response.body().string();
+            log.info("Ollama response: {}", responseBody);
             JsonNode jsonNode = objectMapper.readTree(responseBody);
-            return jsonNode.get("response").asText();
+            if (jsonNode.has("response")) {
+                return jsonNode.get("response").asText();
+            } else {
+                 log.error("Ollama response missing 'response' field: {}", responseBody);
+                 throw new IOException("Ollama response missing 'response' field");
+            }
+        } catch (Exception e) {
+            log.error("Error querying Ollama", e);
+            throw e;
         }
     }
 }

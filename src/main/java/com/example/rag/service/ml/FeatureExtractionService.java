@@ -24,7 +24,7 @@ public class FeatureExtractionService {
         // 4) Lexical Diversity 5) Punctuation Ratio
         features.put("wordCount", (double) getWordCount(prompt));
         features.put("sentenceCount", (double) getSentenceCount(prompt));
-        features.put("averageWordLength", getAverageWordLength(prompt));
+        features.put("avgWordLength", getAverageWordLength(prompt));
         features.put("lexicalDiversity", getLexicalDiversity(prompt));
         features.put("punctuationRatio", getPunctuationRatio(prompt));
 
@@ -32,8 +32,8 @@ public class FeatureExtractionService {
         // 4) Ambiguity
         features.put("semanticClarity", calculateSemanticClarity(prompt));
         features.put("contextRelevance", calculateRelevance(prompt));
-        features.put("specificity", calculateSemanticClarity(prompt));
-        features.put("ambiguity", calculateSemanticClarity(prompt));
+        features.put("specificityScore", calculateSemanticClarity(prompt));
+        features.put("ambiguityScore", calculateSemanticClarity(prompt));
 
         // structural features - 1) Does prompt have context, constraints, examples 2)
         // Calculate the structural complexity

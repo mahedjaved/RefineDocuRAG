@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("api/refinement")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
-
 public class RefinementController {
 
     private final PromptRefinementService promptRefinementService;
