@@ -34,6 +34,31 @@
     - feature_name = name of a feature (e.g. avg_token_length, num_constraints),
     - feature_value = numeric value of that feature for this refinement.
 
+# Unique Methodologies Adopted
+
+- Every weight of the feature is recorded with a unique id and updated timestamp (see FeatureWeight)
+- We use the linear model with least square equations to base gradient descent method to optimize the weights of the features (see PromptRefinementService). 
+
+
+# Key Notes
+
+- The refined prompt is updated based on the quality score of the current prompt and the feedback provided (see PromptRefinementService).
+- Core version of deeplearning4j library was removed and replaced with `nn` lighter form to prevent spring boot from loading unnecessary dependencies and issues arising from classpath conflicts (e.g. depth of dir structures). Please see example import below.
+
+```java
+ <dependency>
+      <groupId>org.deeplearning4j</groupId>
+      <artifactId>deeplearning4j-nn</artifactId>
+      <version>${dl4j.version}</version>
+      <exclusions>
+          <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+          </exclusion>
+      </exclusions>
+    </dependency>
+```
+
 ## Reusable Components for Markdown
 - ☐ Task not started
 - ☑ Task completed

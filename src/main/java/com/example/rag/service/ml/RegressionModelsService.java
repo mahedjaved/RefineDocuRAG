@@ -91,7 +91,7 @@ public class RegressionModelsService {
      * *****************************
      */
 
-    private double predictPolynomialRegression(Map<String, Double> features,
+    public double predictPolynomialRegression(Map<String, Double> features,
             List<Map<String, Double>> historicalFeatures,
             List<Double> historicalScores) {
         try {
