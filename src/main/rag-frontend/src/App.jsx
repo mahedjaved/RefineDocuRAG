@@ -14,7 +14,7 @@ function App() {
   const [showChunks, setShowChunks] = useState(false);
   
   // Refinement states
-  const [showRefinement, setShowRefinement] = useState(false);
+  const [showRefinement, setShowRefinement] = useState(true);
   const [refining, setRefining] = useState(false);
   const [refinementResult, setRefinementResult] = useState(null);
   const [refinementSettings, setRefinementSettings] = useState({
@@ -108,6 +108,18 @@ function App() {
       
       if (response.ok) {
         setRefinementResult(data);
+        
+        // Add refinement history to chat
+        setChatMessages(prev => [...prev, {
+          type: 'refinement',
+          content: {
+            original: query,
+            refined: data.refinedPrompt,
+            improvement: data.improvementPercentage,
+            iterations: data.totalIterations
+          }
+        }]);
+
         setQuery(data.refinedPrompt); // Update query with refined prompt
       } else {
         alert('Error refining prompt: ' + (data.error || 'Unknown error'));
@@ -455,30 +467,51 @@ function App() {
                   <div
                     key={idx}
                     className={`flex ${
-                      msg.type === 'user' ? 'justify-end' : 'justify-start'
+                      msg.type === 'user' ? 'justify-end' : 
+                      msg.type === 'refinement' ? 'justify-center' : 'justify-start'
                     }`}
                   >
-                    <div
-                      className={`max-w-[80%] p-4 rounded-lg ${
-                        msg.type === 'user'
-                          ? 'bg-indigo-600 text-white'
-                          : msg.type === 'error'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      <div className="whitespace-pre-wrap">{msg.content}</div>
-                      {msg.sourceChunks && msg.sourceChunks.length > 0 && (
-                        <div className="mt-3 pt-3 border-t border-gray-300">
-                          <p className="text-xs font-semibold mb-2">Sources:</p>
-                          {msg.sourceChunks.map((chunk, i) => (
-                            <p key={i} className="text-xs opacity-75 mb-1">
-                              • {chunk}
-                            </p>
-                          ))}
+                    {msg.type === 'refinement' ? (
+                      <div className="w-full max-w-2xl bg-purple-50 border border-purple-200 rounded-lg p-4 mx-4 my-2">
+                        <div className="flex items-center text-purple-900 font-semibold mb-2 text-sm">
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          Prompt Refined
+                          <span className="ml-auto text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                            +{msg.content.improvement.toFixed(1)}% Improved
+                          </span>
                         </div>
-                      )}
-                    </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="text-gray-500 line-through decoration-red-400">
+                            {msg.content.original}
+                          </div>
+                          <div className="text-indigo-900 font-medium bg-white p-2 rounded border border-purple-100">
+                            {msg.content.refined}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className={`max-w-[80%] p-4 rounded-lg ${
+                          msg.type === 'user'
+                            ? 'bg-indigo-600 text-white'
+                            : msg.type === 'error'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        <div className="whitespace-pre-wrap">{msg.content}</div>
+                        {msg.sourceChunks && msg.sourceChunks.length > 0 && (
+                          <div className="mt-3 pt-3 border-t border-gray-300">
+                            <p className="text-xs font-semibold mb-2">Sources:</p>
+                            {msg.sourceChunks.map((chunk, i) => (
+                              <p key={i} className="text-xs opacity-75 mb-1">
+                                • {chunk}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))
               )}
@@ -508,13 +541,19 @@ function App() {
                   <button
                     onClick={handleRefinePrompt}
                     disabled={refining || !query.trim() || loading}
-                    className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center"
+                    className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center font-medium"
                     title="Refine prompt with ML"
                   >
                     {refining ? (
-                      <Loader className="w-5 h-5 animate-spin" />
+                      <>
+                        <Loader className="w-5 h-5 animate-spin mr-2" />
+                        Refining...
+                      </>
                     ) : (
-                      <Sparkles className="w-5 h-5" />
+                      <>
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        Refine
+                      </>
                     )}
                   </button>
                 )}
