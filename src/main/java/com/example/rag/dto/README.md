@@ -1,4 +1,4 @@
-- ☐ Build the domain transfer objects - this is done to transfer the data between the client and the server without impacting the database schema with concrete implementation details. Entities represent database structure (internal) vs DTOs represent API structure (external). Complimenting seperation of concerns.
+- ☑ Build the domain transfer objects - this is done to transfer the data between the client and the server without impacting the database schema with concrete implementation details. Entities represent database structure (internal) vs DTOs represent API structure (external). Complimenting seperation of concerns.
     - ☑ Request DTOs (Frontend → Backend)
         - ✅ RefinementRequest - Parameters to refine a prompt
         - ☑ ChatRequest - Question for RAG system

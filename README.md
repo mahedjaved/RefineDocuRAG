@@ -54,11 +54,11 @@ In industrial RAG applications, improving query answer quality often requires up
 ### Prerequisites
 1.  **Java Development Kit (JDK) 17** or higher.
 2.  **Node.js** (v18+ recommended) and **npm**.
-3.  **Ollama**: Installed and running.
+3.  **Ollama**: Installed and running <a href="https://ollama.com/download/windows">**(*Download here*)**</a>.
     *   Pull required models:
         ```bash
-        ollama pull mistral
-        ollama pull nomic-embed-text
+        ollama pull mistral:7b
+        ollama run mistral:7b
         ```
 
 ### Installation
@@ -73,12 +73,19 @@ cd rag-refinement
 Navigate to the project root and run the Spring Boot application:
 ```bash
 # Windows
-mvnw spring-boot:run
+mvn spring-boot:run
 
 # Linux/Mac
 ./mvnw spring-boot:run
 ```
 *The backend will start on `http://localhost:8080`.*
+
+*To test BE seperately with example of refining a prompt, run the following curl command:
+```bash
+curl -X POST http://localhost:8080/api/rag/refine \
+    -H "Content-Type: application/json" \
+    -d '{"prompt": "<enter your prompt>"}'
+```
 
 #### 3. Frontend Setup
 Open a new terminal, navigate to the frontend directory, and start the development server:
@@ -128,13 +135,15 @@ This project is being improved step-by-step. Below is the current record of impr
 *   **Refinement Strategy**: Storing refinement features in a dedicated `refinement_features` table for historical analysis.
 
 ### Development Checklist
-- [ ] **Build Advanced Regression Pipeline**
-    - [ ] 4 Regression Methods: Linear, Polynomial, Neural Networks, Ensemble
-    - [ ] Gradient Descent Learning: Dynamic weight optimization
-    - [ ] Iterative Refinement: Feedback-driven improvement loop
-    - [ ] Comprehensive Metrics: MSE, RMSE, MAE, R²
-- [x] **Basic RAG Implementation** (Java-Spring-React)
-- [x] **Frontend Refinement UI** (Integration complete)
+- ✅ **Build Advanced Regression Pipeline**
+    - ✅ 4 Regression Methods: Linear, Polynomial, Neural Networks, Ensemble
+    - ✅ Gradient Descent Learning: Dynamic weight optimization
+    - ✅ Iterative Refinement: Feedback-driven improvement loop
+    - ✅ Comprehensive Metrics: MSE, RMSE, MAE, R²
+- ✅ **Basic RAG Implementation** (Java-Spring-React)
+- ✅ **Frontend Refinement UI** (Integration complete)
+- ☐ Reinforcement Learning: Future work to improve prompt refinement using RL as part of human feedback.
+- ☐ Monitoring of prediction confidence for each prompt to detect overconfident models.
 
 ---
 
